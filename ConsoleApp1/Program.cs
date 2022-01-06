@@ -148,10 +148,11 @@ public class GFG
         ExThread obj = new ExThread();
 
 
-        Thread[] threads_array = new Thread[thread_number-1];
+        Thread[] threads_array = new Thread[thread_number];
         for (var i = 0; i < threads_array.Length; i++)
         {
-            threads_array[i] = new Thread(() => obj.mythread1(i, listOfSplitArray.ElementAt(i).ToArray()));
+            var xd = i;
+            threads_array[i] = new Thread(() => obj.mythread1(xd, listOfSplitArray.ElementAt(xd).ToArray()));
             threads_array[i].Start();
         }
 
