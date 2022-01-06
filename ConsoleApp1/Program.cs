@@ -7,12 +7,29 @@ using System.Threading;
 
 public static class ArrayExtensions
 {
-    public static IEnumerable<IEnumerable<T>> Split<T>(this T[] array, int size)
+    public static IEnumerable<IEnumerable<T>> Split<T>(this T[] array, int splitInto)
     {
-        for (var i = 0; i < (float)array.Length / size; i++)
+        var initialValue = array.Length / splitInto;
+        var itemsLeft = array.Length - initialValue * splitInto;
+        var itemsQuantityList = new List<int>();
+        for(var i =0; i< splitInto; i++)
         {
-            yield return array.Skip(i * size).Take(size);
+            if(i < itemsLeft)
+            {
+                itemsQuantityList.Add(initialValue + 1);
+            } else
+            {
+                itemsQuantityList.Add(initialValue);
+            }
         }
+        var splitArray = new List<List<T>>();
+        var sum = 0;
+        for (var i = 0; i < splitInto; i++)
+        {
+            splitArray.Add(array.Skip(sum).Take(itemsQuantityList.ElementAt(i)).ToList());
+            sum = +itemsQuantityList.ElementAt(i);
+        }
+        return splitArray;
     }
 }
 public class ExThread
@@ -122,6 +139,7 @@ public class GFG
             {
                 Console.WriteLine(element2);
             }
+            Console.WriteLine("Array length" + element.Count());
             Console.WriteLine("The end of current array");
         }
 
